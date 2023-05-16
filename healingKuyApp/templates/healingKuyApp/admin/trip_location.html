@@ -1,0 +1,89 @@
+{% extends "./base.html" %} 
+
+{% block main%}
+
+<div class="container mt-5 bg-light p-4">
+  <!-- modal add trip_location -->
+    <div class="col ">
+
+   <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+Add Trip Location
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable">
+<div class="modal-content">
+  <div class="modal-header">
+    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Trip Location</h1>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+
+    <form method="POST">
+      {% csrf_token%}
+      <div class="mb-3">
+        <label for="location_name" class="form-label">Location</label>
+        <input type="text" class="form-control" id="location" name="location_name" placeholder="input location">
+      </div>
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select name="status" class="form-select  form-select-md form-control " aria-label=". form-select-md example">
+            <option selected>Open this select status</option>
+            <option value="active">active</option>
+            <option value="inactive">inactive</option>
+            </select>
+        </div>
+        
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+    </form>
+
+  </div>
+  
+</div>
+</div>
+</div>  
+    </div>
+<!-- end modal add trip location -->
+
+
+
+    <div class="col">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date/Time Created</th>
+                <th scope="col">Location</th>  
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% if locations %}
+                {% for location in locations %}
+                    <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ location.date_created }}</td>
+                    <td>{{ location.location_name }}</td>
+                    <td><span class="badge {% if location.status == 'active'%}  text-bg-primary {%else%} text-bg-danger{% endif %}">{{ location.status }}</span></td>
+                    <td><button type="button" class="btn btn-primary"><i class="bi bi-pencil-square"></i></button>  
+                      <!-- <form method="DELETE" action="http://127.0.0.1:2000/api/trip_location/{{ location.id }}"> -->
+                        <a href="http://127.0.0.1:2000/api/location/delete/{{ location.location_id }}" onclick="return confirm('Are you sure to delete this location?')" class="btn btn-danger"><i class="bi bi-trash"></i</a>
+
+                      <!-- </form> -->
+                     
+                      </td>
+                    </tr>
+                {% endfor %}
+                {% endif %}
+             
+            </tbody>
+          </table>
+    </div>
+</div>
+{% endblock%}
+
+

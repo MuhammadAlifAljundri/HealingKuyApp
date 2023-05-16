@@ -1,0 +1,55 @@
+{% extends "./base.html" %}
+{% block title%} Scheduled Trips {% endblock %}
+
+{% block template%} 
+
+<div class="container mt-5">
+    <div class="row ">
+
+        <table class="table  table-success table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Available Seats</th>
+                <th scope="col">Schedule/Bus</th>
+                <th scope="col">Route (From - To)</th>
+                <th scope="col">Fare</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% if schedules%}
+                    {% for schedule in schedules%}
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>{{ schedule.seatS }}</td>
+                        <td>
+                            <div class="lh-1">
+                                <div>{{ schedule.schedule_trip }}</div>
+                                <div>{{ schedule.name_bus }}</div>
+                                <small class="text-muted">{{ schedule.bus.category }}</small>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="lh-1">
+                                <div>{{ schedule.depart }} -</div>
+                                <div>{{ schedule.destination }}</div>
+                            </div>
+                        </td>
+                        <td>{{ schedule.fare }}</td>
+                        <td><span class="badge {% if schedule.status == 'active'%}  text-bg-primary {%else%} text-bg-danger{% endif %}">{% if schedule.status == 'active'%} active {%else%} inactive{% endif %}</span></td>
+                        <td> <button type="button" class="btn btn-primary btn-sm {% if schedule.status == 'active'%}  btn-primary {%else%} btn-secondary disabled{% endif %} "><i class="bi bi-cash-stack"></i> Booking</button></td>
+                      </tr>
+                    {% endfor%}
+                {% endif %}
+             
+              
+            </tbody>
+          </table>
+    </div>
+
+</div>
+
+{% endblock %}
+

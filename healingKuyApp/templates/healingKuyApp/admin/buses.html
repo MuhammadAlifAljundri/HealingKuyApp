@@ -1,0 +1,100 @@
+{% extends "./base.html" %} 
+
+{% block main%}
+
+<div class="container mt-5 bg-light p-4">
+    <div class="col ">
+   <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+Add Bus
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable">
+<div class="modal-content">
+  <div class="modal-header">
+    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Bus</h1>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+
+    <form method="POST">
+      {% csrf_token%}
+      <div class="mb-3">
+        <label for="bus_name" class="form-label">Name Bus</label>
+        <input type="text" class="form-control" id="bus" name="bus_name" placeholder="input name bus">
+      </div>
+
+        <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select name="category" class="form-select  form-select-md form-control " aria-label=". form-select-md example">
+            <option selected>Open this select category</option>
+            <option value="Economy">Economy</option>
+            <option value="Vip">Vip</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="seats" class="form-label">Seat</label>
+            <input type="number" class="form-control" id="seat" name="seats" placeholder="input seat">
+          </div>
+
+        
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select name="status" class="form-select  form-select-md form-control " aria-label=". form-select-md example">
+            <option selected>Open this select status</option>
+            <option value="1">active</option>
+            <option value="2">inactive</option>
+            </select>
+        </div>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+    </form>
+
+  </div>
+  
+</div>
+</div>
+</div>  
+    </div>
+    <div class="col">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date/Time Created</th>
+                <th scope="col">Bus</th>
+                <th scope="col">Category</th>
+                <th scope="col">Seat</th>  
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% if buses %}
+                {% for bus in buses %}
+                    <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ bus.date_created }}</td>
+                    <td>{{ bus.bus_name }}</td>
+                    <td>{{ bus.category }} </td>
+                    <td>{{ bus.seats }}</td>
+                    <td><span class="badge {% if bus.status == '1'%}  text-bg-primary {%else%} text-bg-danger{% endif %}">{% if bus.status == '1'%} active {%else%} inactive{% endif %}</span></td>
+                    <td>
+                      <button type="button" class="btn btn-primary"><i class="bi bi-pencil-square"></i></button>  
+                      <a href="http://127.0.0.1:2000/api/bus/delete/{{ bus.bus_id }}" onclick="return confirm('Are you sure to delete this bus?')" class="btn btn-danger"><i class="bi bi-trash"></i</a></td>
+                    </tr>
+                {% endfor %}
+                {% endif%}
+             
+            </tbody>
+          </table>
+
+         
+    </div>
+</div>
+{% endblock%}
+
+

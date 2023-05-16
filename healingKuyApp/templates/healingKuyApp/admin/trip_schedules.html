@@ -1,0 +1,140 @@
+{% extends "./base.html" %} 
+
+{% block main%}
+
+<div class="container mt-5 bg-light p-4">
+
+
+  <!--add trip schedules modal  -->
+<div class="col ">
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+Add Trip Schedule
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable">
+<div class="modal-content">
+  <div class="modal-header">
+    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Trip Schedule</h1>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+
+    <form method="POST">
+      {% csrf_token%}
+      
+        <div class="mb-3">
+            <label for="name_bus" class="form-label">Bus</label>
+            <select name="name_bus" class="form-select  form-select-md form-control " aria-label=". form-select-md example">
+            <option selected>Open this select bus</option>
+            {% if buses %}
+            {% for bus in buses%}
+            <option value="{{ bus.bus_name }}">{{ bus.bus_name }}</option>
+            {% endfor%}
+            {% endif %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="depart" class="form-label">depart</label>
+            <select name="depart" class="form-select  form-select-md form-control " aria-label=". form-select-md example">
+            <option selected>Open this select depart</option>
+            {% if locations %}
+            {% for location in locations%}
+            <option value="{{ location.location_name}}">{{ location.location_name}}</option>
+            {% endfor%}
+            {% endif %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="destination" class="form-label">Destination</label>
+            <select name="destination" class="form-select  form-select-md form-control " aria-label=". form-select-md example">
+            <option selected>Open this select destination</option>
+            {% if locations %}
+            {% for location in locations%}
+            <option value="{{ location.location_name}}">{{ location.location_name}}</option>
+            {% endfor%}
+            {% endif %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="schedule_trip" class="form-label">schedule_trip</label>
+          <input type="datetime-local" class="form-control" id="schedule_trip" name="schedule_trip" placeholder="input date">
+        </div>
+        
+        <div class="mb-3">
+            <label for="fare" class="form-label">Fare</label>
+            <input name="fare" type="number" class="form-control" id="fare" aria-describedby="emailHelp">
+        </div>
+
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select name="status" class="form-select  form-select-md form-control " aria-label=". form-select-md example">
+            <option selected>Open this select status</option>
+            <option value="active">active</option>
+            <option value="inactive">inactive</option>
+            </select>
+        </div>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+    </form>
+  </div>
+  
+</div>
+</div>
+</div>  
+
+</div>
+<!-- end trip schedules modal -->
+
+
+
+
+<div class="col">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Schedules</th>
+            <th scope="col">Bus</th>
+            <th scope="col">Route</th>
+            <th scope="col">Fare</th>  
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% if tripSchedules %}
+            {% for tripSchedule in tripSchedules %}
+                <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ tripSchedule.schedule_trip }}</td>
+                <td>{{ tripSchedule.name_bus }}</td>
+                <td>
+                    <div class="lh-1">
+                        <div>{{ tripSchedule.depart}} -</div>
+                        <div>{{ tripSchedule.destination}}</div>
+                    </div> 
+                </td>
+                <td>{{ tripSchedule.fare }}</td>
+                <td><span class="badge {% if tripSchedule.status == 'active'%}  text-bg-primary {%else%} text-bg-danger{% endif %}">{{ tripSchedule.status }}</span></td>
+                <td><button type="button" class="btn btn-primary"><i class="bi bi-pencil-square"></i></button> 
+                  <a href="http://127.0.0.1:2000/api/schedule/delete/{{ tripSchedule.schedule_id }}" onclick="return confirm('Are you sure to delete this schedule?')" class="btn btn-danger"><i class="bi bi-trash"></i</a>
+                  </td>
+                </tr>
+            {% endfor %}
+            {% endif%}
+          
+        </tbody>
+      </table>
+      <div>{{  bustes.bus_name }}</div>
+</div>
+</div>
+
+{% endblock%}
+
+

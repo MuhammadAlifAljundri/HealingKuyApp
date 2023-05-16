@@ -1,0 +1,48 @@
+{% extends "./base.html" %}
+{% block title%}Find Trips {% endblock %}
+
+{% block template%}
+<section class="d-flex align-items-center" style="height:90vh;">
+    <div class="container" >
+        <div class="row justify-content-center align-items-center" >
+
+            <div class="col-lg-6 bg-light p-5 ">
+                <div class="mb-3">
+                    <label for="date-input" class="form-label">Date</label>
+                    <input type="date" class="form-control" id="date-input" placeholder="mm/dd/yyyy">
+                </div>
+    
+                <div class="mb-3">
+                    <label for="dapart-input" class="form-label">Depart</label>
+                    <select class="form-select" aria-label="Default select example" id="dapart-input">
+                        <option selected>Please select here</option>
+                        {% if locations%}
+                        {% for location in locations%}
+                        <option value="{{ location.location }}">{{ location.location }}</option>
+                        {% endfor%}
+                        {% endif %}
+                      </select>
+                </div>
+    
+                <div class="mb-3">
+                    <label for="destination-input" class="form-label">Destination</label>
+                    <select class="form-select" aria-label="Default select example" id="destination-input">
+                        <option selected>Please select here</option>
+                        {% if locations%}
+                        {% for location in locations%}
+                        <option value="{{ location.location }}">{{ location.location }}</option>
+                        {% endfor%}
+                        {% endif %}
+                      </select>
+                </div>
+    
+                <button type="submit" class="btn btn-primary w-25 mx-3 mt-2">Submit</button>
+            </div>
+
+          
+        </div>
+    </div>
+
+</section>
+    
+{% endblock%}

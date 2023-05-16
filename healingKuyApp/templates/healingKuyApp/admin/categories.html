@@ -1,0 +1,81 @@
+{% extends "./base.html" %} 
+
+{% block main%}
+	<div class="container mt-5 bg-light p-4">
+        <div class="col ">
+       <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Add category
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add Category</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form method="POST" action="{% url 'categories'%}">
+          {% csrf_token%}
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="input name">
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control" id="description" name="description" placeholder="input description">
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Status</label>
+            <select class="form-select form-select-lg form-control " aria-label=".form-select-lg example">
+              <option selected>Open this select status</option>
+              <option value="active">active</option>
+              <option value="inactive">inactive</option>
+            </select>
+        </div>
+          
+        <!-- </form> -->
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>  
+        </div>
+        <div class="col">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+               
+                <!-- <tbody> 
+                  {% if categories %}
+                    {% for category in categories %}
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>{{ category.name }}</td>
+                      <td>{{ category.description }}</td>
+                      <td>{{ category.status }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                  </tbody>
+                   -->
+               
+              </table>
+        </div>
+    </div>
+{% endblock%}
